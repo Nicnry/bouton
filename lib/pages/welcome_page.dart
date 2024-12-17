@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
-import '../pages/enter_phone_page.dart'; // Importer la nouvelle page
+import '../pages/enter_phone_page.dart';
+import '../pages/my_app_page.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -85,6 +86,10 @@ class _WelcomePageState extends State<WelcomePage> {
                 onPressed: () {
                   Provider.of<UserProvider>(context, listen: false)
                       .setCguApproved(false);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const MyAppPage()),
+                  );
                 },
                 child: const Text("Supprimer les cgu"),
               ),

@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      //Vérifie si les CGU ont déjà été acceptées
       home: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
           return userProvider.cguApproved

@@ -15,24 +15,17 @@ class MyAppPage extends StatefulWidget {
 class _MyAppPageState extends State<MyAppPage> {
   bool _isCGUAccepted = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _isCGUAccepted =
+        Provider.of<UserProvider>(context, listen: false).cguApproved;
+  }
+
   void _toggleCGU(bool value) {
     setState(() {
       _isCGUAccepted = value;
     });
-  }
-
-  void _validateAndProceed() {
-    if (!_isCGUAccepted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Vous devez accepter les CGU pour continuer.')),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('CGU acceptées!')),
-      );
-      //logique pour naviguer
-    }
   }
 
   @override
@@ -53,15 +46,6 @@ class _MyAppPageState extends State<MyAppPage> {
               "Accepter les CGU",
               style: TextStyle(fontSize: 20),
             ),
-          ),
-          const SizedBox(height: 20),
-          Consumer<UserProvider>(
-            builder: (context, userProvider, child) {
-              return Text(
-                'CGU approuvées: ${userProvider.cguApproved}',
-                style: const TextStyle(fontSize: 18),
-              );
-            },
           ),
           const SizedBox(height: 20),
           Text.rich(
@@ -97,13 +81,6 @@ class _MyAppPageState extends State<MyAppPage> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              _validateAndProceed();
-            },
-            child: const Text("PRINT ONLY"),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
               if (_isCGUAccepted) {
                 Provider.of<UserProvider>(context, listen: false)
                     .setCguApproved(_isCGUAccepted);
@@ -111,6 +88,12 @@ class _MyAppPageState extends State<MyAppPage> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const WelcomePage()),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                      content:
+                          Text('Vous devez accepter les CGU pour continuer.')),
                 );
               }
             },
