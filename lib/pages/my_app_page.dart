@@ -82,17 +82,17 @@ class _MyAppPageState extends State<MyAppPage> {
             ),
           ),
           const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const Text("Accepter les CGU: "),
-              Switch(
-                value: _isCGUAccepted,
-                onChanged: _toggleCGU,
-                activeColor: Colors.green,
-                inactiveThumbColor: Colors.red,
-              ),
-            ],
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text("Accepter les CGU: "),
+                Switch(
+                  value: _isCGUAccepted,
+                  onChanged: _toggleCGU,
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
           ElevatedButton(
@@ -104,12 +104,15 @@ class _MyAppPageState extends State<MyAppPage> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Provider.of<UserProvider>(context, listen: false)
-                  .setCguApproved(true);
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const WelcomePage()),
-              );
+              if (_isCGUAccepted) {
+                Provider.of<UserProvider>(context, listen: false)
+                    .setCguApproved(_isCGUAccepted);
+
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const WelcomePage()),
+                );
+              }
             },
             child: const Text("Confirmer"),
           ),
