@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/user_provider.dart';
-import 'pages/welcome_page.dart';
-import 'pages/my_app_page.dart';
+import 'pages/enter_phone_page.dart';
+import 'pages/cgu_page.dart';
 
 void main() async {
   // S'assurer que Flutter est initialisé avant d'attendre une tâche async
@@ -37,9 +37,14 @@ class MyApp extends StatelessWidget {
       //Vérifie si les CGU ont déjà été acceptées
       home: Consumer<UserProvider>(
         builder: (context, userProvider, child) {
-          return userProvider.cguApproved
-              ? const WelcomePage()
-              : const MyAppPage();
+          if (!userProvider.cguApproved) {
+            return const CguPage();
+          }
+          if (userProvider.cguApproved) {
+            return const EnterPhonePage();
+          }
+
+          return const CguPage();
         },
       ),
     );
